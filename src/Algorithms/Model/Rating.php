@@ -13,12 +13,12 @@ class Rating
     /**
      * @var int
      */
-    protected $userNodeId;
+    protected $nodeId;
 
-    public function __construct($rating, $userNodeId)
+    public function __construct($rating, $nodeId)
     {
         $this->rating = (float)$rating;
-        $this->userNodeId = (int)$userNodeId;
+        $this->nodeId = (int)$nodeId;
     }
 
     /**
@@ -34,6 +34,6 @@ class Rating
      */
     public function getId()
     {
-        return $this->userNodeId;
+        return $this->nodeId;
     }
 }
