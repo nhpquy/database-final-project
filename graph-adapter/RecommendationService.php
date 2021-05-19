@@ -15,7 +15,7 @@ class RecommendationService
      */
     protected $service;
 
-    public function __contruct($databaseUri)
+    public function __construct($databaseUri)
     {
         $this->service = RecommenderService::create($databaseUri);
         $this->service->registerRecommendationEngine(new ProductRecommendationEngine());

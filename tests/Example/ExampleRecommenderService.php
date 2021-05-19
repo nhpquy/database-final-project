@@ -4,6 +4,7 @@ namespace FinalProject\RecommendationEngine\Tests\Example;
 
 use FinalProject\RecommendationEngine\Context\SimpleContext;
 use FinalProject\RecommendationEngine\RecommenderService;
+use FinalProject\RecommendationEngine\Result\Recommendations;
 
 class ExampleRecommenderService
 {
@@ -16,7 +17,7 @@ class ExampleRecommenderService
      * ExampleRecommenderService constructor.
      * @param string $databaseUri
      */
-    public function __construct($databaseUri)
+    public function __construct(string $databaseUri)
     {
         $this->service = RecommenderService::create($databaseUri);
         $this->service->registerRecommendationEngine(new ExampleRecommendationEngine());
@@ -26,7 +27,7 @@ class ExampleRecommenderService
      * @param int $id
      * @return \FinalProject\RecommendationEngine\Result\Recommendations
      */
-    public function recommendMovieForUserWithId($id)
+    public function recommendMovieForUserWithId(int $id): Recommendations
     {
         $input = $this->service->findInputBy('User', 'id', $id);
         $recommendationEngine = $this->service->getRecommender("user_movie_reco");
