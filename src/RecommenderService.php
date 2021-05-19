@@ -1,7 +1,7 @@
 <?php
 
 
-namespace GraphAware\Reco4PHP;
+namespace FinalProject\RecommendationEngine;
 
 use FinalProject\RecommendationEngine\Engine\RecommendationEngine;
 use FinalProject\RecommendationEngine\Persistence\DatabaseService;

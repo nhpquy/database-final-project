@@ -125,9 +125,7 @@ abstract class BaseRecommendationEngine implements RecommendationEngine
      */
     final public function recommend(Node $input, Context $context): Recommendations
     {
-        $recommendations = $this->recommendationExecutor->processRecommendation($input, $this, $context);
-
-        return $recommendations;
+        return $this->recommendationExecutor->processRecommendation($input, $this, $context);
     }
 
     final public function setDatabaseService(DatabaseService $databaseService)
