@@ -8,21 +8,24 @@ use GraphAware\Common\Cypher\Statement;
 use GraphAware\Common\Cypher\StatementInterface;
 use GraphAware\Common\Type\Node;
 
-class RatedByUsersDiscovery extends SingleDiscoveryEngine
+class SameTagsDiscovery extends SingleDiscoveryEngine
 {
 
     public function name(): string
     {
-        return "rated_by_user";
+        return "same_tags";
     }
 
     public function discoveryQuery(Node $input, Context $context): StatementInterface
     {
-        $query = 'MATCH (input:User) WHERE id(input) = {id}
-        MATCH (input)-[:RATED]->(p)<-[:RATED]-(o)
-        WITH distinct o
-        MATCH (o)-[:RATED]->(reco)
-        RETURN distinct reco LIMIT 500';
+        $query = 'MATCH (input:User) WHERE id(input) = $id
+        MATCH (input)-[r:RATED]->(p)-[:HAS_TAG]->(tag)
+        WITH distinct tag, sum(r.rating) as score
+        ORDER BY score DESC
+        LIMIT 15
+        MATCH (tag)<-[:HAS_TAG]-(reco)
+        RETURN distinct reco 
+        LIMIT 200';
 
         return Statement::create($query, ['id' => $input->identity()]);
     }

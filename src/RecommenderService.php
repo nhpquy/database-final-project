@@ -7,6 +7,7 @@ use FinalProject\RecommendationEngine\Engine\RecommendationEngine;
 use FinalProject\RecommendationEngine\Persistence\DatabaseService;
 use GraphAware\Common\Type\Node;
 use GraphAware\Neo4j\Client\ClientInterface;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -79,7 +80,7 @@ class RecommenderService
     public function findInputById($id)
     {
         $id = (int)$id;
-        $result = $this->databaseService->getDriver()->run('MATCH (n) WHERE id(n) = {id} RETURN n as input', ['id' => $id]);
+        $result = $this->databaseService->getDriver()->run('MATCH (n) WHERE id(n) = $id RETURN n as input', ['id' => $id]);
 
         return $this->validateInput($result);
     }
@@ -93,7 +94,7 @@ class RecommenderService
      */
     public function findInputBy($label, $key, $value)
     {
-        $query = sprintf('MATCH (n:%s {%s: {value} }) RETURN n as input', $label, $key);
+        $query = sprintf('MATCH (n:%s {%s: $value }) RETURN n as input', $label, $key);
         $result = $this->databaseService->getDriver()->run($query, ['value' => $value]);
 
         return $this->validateInput($result);
@@ -107,7 +108,7 @@ class RecommenderService
     public function validateInput($result)
     {
         if (count($result->records()) < 1 || !$result->getRecord()->value('input') instanceof Node) {
-            throw new \InvalidArgumentException(sprintf('Node not found'));
+            throw new InvalidArgumentException('Node not found');
         }
 
         return $result->getRecord()->value('input');
@@ -121,7 +122,7 @@ class RecommenderService
     public function getRecommender($name)
     {
         if (!array_key_exists($name, $this->engines)) {
-            throw new \InvalidArgumentException(sprintf('The Recommendation engine "%s" is not registered in the Recommender Service', $name));
+            throw new InvalidArgumentException(sprintf('The Recommendation engine "%s" is not registered in the Recommender Service', $name));
         }
 
         return $this->engines[$name];
@@ -135,4 +136,30 @@ class RecommenderService
         $recommendationEngine->setDatabaseService($this->databaseService);
         $this->engines[$recommendationEngine->name()] = $recommendationEngine;
     }
+
+    /**
+     * @return \FinalProject\RecommendationEngine\Persistence\DatabaseService
+     */
+    public function getDatabaseService(): DatabaseService
+    {
+        return $this->databaseService;
+    }
+
+    /**
+     * @return \FinalProject\RecommendationEngine\Engine\RecommendationEngine[]
+     */
+    public function getEngines(): array
+    {
+        return $this->engines;
+    }
+
+    /**
+     * @return \Symfony\Component\EventDispatcher\EventDispatcher|\Symfony\Component\EventDispatcher\EventDispatcherInterface|null
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+
 }

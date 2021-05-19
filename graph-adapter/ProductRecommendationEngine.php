@@ -1,9 +1,14 @@
 <?php
 
 
-namespace FinalProject\RecommendationEngine\Adapter\Discovery;
+namespace FinalProject\RecommendationEngine\Adapter;
 
 
+use FinalProject\RecommendationEngine\Adapter\BlackList\AlreadyRatedBlackList;
+use FinalProject\RecommendationEngine\Adapter\Discovery\RatedByUsersDiscovery;
+use FinalProject\RecommendationEngine\Adapter\Discovery\SameTagsDiscovery;
+use FinalProject\RecommendationEngine\Adapter\Filter\ExcludeEmptyProductsFilter;
+use FinalProject\RecommendationEngine\Adapter\Post\RewardWellRatedPostProcessor;
 use FinalProject\RecommendationEngine\Engine\BaseRecommendationEngine;
 
 class ProductRecommendationEngine extends BaseRecommendationEngine
@@ -25,7 +30,7 @@ class ProductRecommendationEngine extends BaseRecommendationEngine
 
     public function filters(): array
     {
-        return array(new ExcludeEmptyProducts());
+        return array(new ExcludeEmptyProductsFilter());
     }
 
     public function postProcessors(): array

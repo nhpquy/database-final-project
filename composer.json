@@ -1,27 +1,27 @@
 {
-    "name": "database-final-project/graph-database-module",
-    "description": "Neo4j based Recommendation Engine Framework for PHP",
-    "type": "library",
-    "license": "Apache-2.0",
-    "require": {
-        "php": "^7.0",
-        "graphaware/neo4j-php-client": "^4.0",
-        "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0",
-        "psr/log": "^1.0",
-        "symfony/stopwatch": "^2.7 || ^3.0 || ^4.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "FinalProject\\RecommendationEngine\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "FinalProject\\RecommendationEngine\\Tests\\": "tests/",
-            "FinalProject\\RecommendationEngine\\Demo\\": "_demo/"
-        }
+  "name": "database-final-project/graph-database-module",
+  "description": "Neo4j based Recommendation Engine Framework for PHP",
+  "type": "library",
+  "license": "Apache-2.0",
+  "require": {
+    "php": "^7.0",
+    "graphaware/neo4j-php-client": "^4.0",
+    "symfony/event-dispatcher": "^2.7 || ^3.0 || ^4.0",
+    "psr/log": "^1.0",
+    "symfony/stopwatch": "^2.7 || ^3.0 || ^4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "FinalProject\\RecommendationEngine\\": "src/",
+      "FinalProject\\RecommendationEngine\\Adapter\\": "graph-adapter/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FinalProject\\RecommendationEngine\\Tests\\": "tests/"
+    }
+  }
 }

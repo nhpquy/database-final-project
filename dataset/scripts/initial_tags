@@ -1,0 +1,5 @@
+LOAD CSV WITH HEADERS FROM "file:///E:\Master\Database\database-final-project\dataset\tags.csv" AS row
+WITH row
+MATCH (product:Product {id: toInteger(row.productId)})
+MERGE (tag:Tag {tag: row.tag})
+MERGE (product)-[r:HAS_TAG]->(tag)

@@ -1,0 +1,5 @@
+LOAD CSV WITH HEADERS FROM "file:///E:\Master\Database\database-final-project\dataset\products.csv" AS row
+WITH row
+MERGE (product:Product {id: toInteger(row.productId)})
+ON CREATE SET product.name = row.name, product.counting = toInteger(row.counting)
+

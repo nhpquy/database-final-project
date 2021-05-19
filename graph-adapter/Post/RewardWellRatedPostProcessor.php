@@ -1,7 +1,7 @@
 <?php
 
 
-namespace FinalProject\RecommendationEngine\Adapter\Discovery;
+namespace FinalProject\RecommendationEngine\Adapter\Post;
 
 
 use FinalProject\RecommendationEngine\Post\RecommendationSetPostProcessor;
@@ -22,7 +22,7 @@ class RewardWellRatedPostProcessor extends RecommendationSetPostProcessor
 
     public function buildQuery(Node $input, Recommendations $recommendations)
     {
-        $query = 'UNWIND {ids} as id
+        $query = 'UNWIND $ids as id
         MATCH (n) WHERE id(n) = id
         MATCH (n)<-[r:RATED]-(u)
         RETURN id(n) as id, sum(r.rating) as score';

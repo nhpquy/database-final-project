@@ -9,6 +9,7 @@ use FinalProject\RecommendationEngine\Result\SingleScore;
 use GraphAware\Common\Cypher\Statement;
 use GraphAware\Common\Result\RecordCursorInterface;
 use GraphAware\Common\Type\Node;
+use RuntimeException;
 
 abstract class RewardSomethingShared implements CypherAwarePostProcessor
 {
@@ -30,7 +31,7 @@ abstract class RewardSomethingShared implements CypherAwarePostProcessor
         $relPattern = sprintf($relationshipPatterns[$this->relationshipDirection()][0], $this->relationshipType());
         $inversedRelPattern = sprintf($relationshipPatterns[$this->relationshipDirection()][1], $this->relationshipType());
 
-        $query = 'MATCH (input) WHERE id(input) = {inputId}, (item) WHERE id(item) = {itemId}
+        $query = 'MATCH (input) WHERE id(input) = $inputId, (item) WHERE id(item) = $itemId
         MATCH (input)' . $relPattern . '(shared)' . $inversedRelPattern . '(item)
         RETURN shared as sharedThing';
 
@@ -40,7 +41,7 @@ abstract class RewardSomethingShared implements CypherAwarePostProcessor
     public function postProcess(Node $input, Recommendation $recommendation, RecordCursorInterface $result = null)
     {
         if (null === $result) {
-            throw new \RuntimeException(sprintf('Expected a non-null result in %s::postProcess()', get_class($this)));
+            throw new RuntimeException(sprintf('Expected a non-null result in %s::postProcess()', get_class($this)));
         }
 
         if (count($result->records()) > 0) {

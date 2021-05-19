@@ -1,0 +1,6 @@
+LOAD CSV WITH HEADERS FROM "file:///E:\Master\Database\database-final-project\dataset\ratings.csv" AS row
+WITH row
+MATCH (product:Product {id: toInteger(row.productId)})
+MERGE (user:User {id: toInteger(row.userId)})
+MERGE (user)-[r:RATED]->(product)
+ON CREATE SET r.rating = toInteger(row.rating), r.timestamp = toInteger(row.timestamp)

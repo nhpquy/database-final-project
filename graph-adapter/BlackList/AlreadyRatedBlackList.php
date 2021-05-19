@@ -1,7 +1,7 @@
 <?php
 
 
-namespace FinalProject\RecommendationEngine\Adapter\Discovery;
+namespace FinalProject\RecommendationEngine\Adapter\BlackList;
 
 
 use FinalProject\RecommendationEngine\Filter\BaseBlacklistBuilder;
@@ -14,7 +14,7 @@ class AlreadyRatedBlackList extends BaseBlacklistBuilder
 
     public function blacklistQuery(Node $input): StatementInterface
     {
-        $query = 'MATCH (input) WHERE id(input) = {inputId}
+        $query = 'MATCH (input) WHERE id(input) = $inputId
         MATCH (input)-[:RATED]->(product)
         RETURN product as item';
 

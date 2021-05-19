@@ -1,7 +1,7 @@
 <?php
 
 
-namespace FinalProject\RecommendationEngine\Adapter\Discovery;
+namespace FinalProject\RecommendationEngine\Adapter;
 
 
 use FinalProject\RecommendationEngine\Context\SimpleContext;
@@ -27,5 +27,13 @@ class RecommendationService
         $recommendationEngine = $this->service->getRecommender("product_recommendation");
 
         return $recommendationEngine->recommend($input, new SimpleContext());
+    }
+
+    /**
+     * @return \FinalProject\RecommendationEngine\RecommenderService
+     */
+    public function getService(): RecommenderService
+    {
+        return $this->service;
     }
 }
