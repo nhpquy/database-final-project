@@ -4,7 +4,7 @@
 namespace FinalProject\RecommendationEngine\Adapter;
 
 
-use FinalProject\RecommendationEngine\Adapter\Discovery\SameCategoryDiscovery;
+use FinalProject\RecommendationEngine\Adapter\BlackList\ExistedProductBlackList;
 use FinalProject\RecommendationEngine\Adapter\Discovery\SameTypeDiscovery;
 use FinalProject\RecommendationEngine\Adapter\Filter\ExcludeEmptyProductsFilter;
 use FinalProject\RecommendationEngine\Adapter\Post\RewardMostBuyPostProcessor;
@@ -22,14 +22,13 @@ class PropertiesBasedProductRecommendationEngine extends BaseRecommendationEngin
     public function discoveryEngines(): array
     {
         return array(
-            new SameTypeDiscovery(),
-            new SameCategoryDiscovery()
+            new SameTypeDiscovery()
         );
     }
 
     public function blacklistBuilders(): array
     {
-        return array();
+        return array(new ExistedProductBlackList());
     }
 
     public function filters(): array

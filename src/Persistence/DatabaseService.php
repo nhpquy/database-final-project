@@ -22,7 +22,7 @@ class DatabaseService
     /**
      * @return ClientInterface
      */
-    public function getDriver()
+    public function getDriver(): ClientInterface
     {
         return $this->driver;
     }

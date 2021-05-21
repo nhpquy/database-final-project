@@ -19,8 +19,8 @@ class SameTypeDiscovery extends SingleDiscoveryEngine
     public function discoveryQuery(Node $input, Context $context): StatementInterface
     {
         $query = 'MATCH (input:Product) WHERE id(input) = $id
-        MATCH (product)-[:HAS_TYPE]->(type)
-        WITH distinct type
+        MATCH (input)-[:HAS_TYPE]->(type)
+        WITH type
         MATCH (type)<-[:HAS_TYPE]-(reco)
         RETURN distinct reco 
         ORDER BY reco.view DESC

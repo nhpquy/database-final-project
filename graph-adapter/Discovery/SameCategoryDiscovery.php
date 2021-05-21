@@ -19,7 +19,7 @@ class SameCategoryDiscovery extends SingleDiscoveryEngine
     public function discoveryQuery(Node $input, Context $context): StatementInterface
     {
         $query = 'MATCH (input:Product) WHERE id(input) = $id
-        MATCH (product)-[:HAS_CATEGORY]->(cate)
+        MATCH (input)-[:HAS_CATEGORY]->(cate)
         WITH distinct cate
         MATCH (cate)<-[:HAS_CATEGORY]-(reco)
         RETURN distinct reco
