@@ -29,8 +29,9 @@ The first part in the recommendation process is to find items to recommend, it i
 
 In Reco4PHP, a `DiscoveryEngine` is responsible for discovering items to recommend in one possible way.
 
-Generally, recommender systems will contains multiple discovery engines, if you would write the `who you should follow on github` recommendation engine,
-you might end up with the non-exhaustive list of `Discovery Engines` :
+Generally, recommender systems will contain multiple discovery engines, if you would write
+the `who you should follow on github` recommendation engine, you might end up with the non-exhaustive list
+of `Discovery Engines` :
 
 * Find people that contributed on the same repositories than me
 * Find people that `FOLLOWS` the same people I follow

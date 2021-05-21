@@ -18,13 +18,22 @@ class RecommendationService
     public function __construct($databaseUri)
     {
         $this->service = RecommenderService::create($databaseUri);
-        $this->service->registerRecommendationEngine(new ProductRecommendationEngine());
+        $this->service->registerRecommendationEngine(new RatingBasedProductRecommendationEngine());
+        $this->service->registerRecommendationEngine(new PropertiesBasedProductRecommendationEngine());
     }
 
-    public function recommendProductForUserWithId($id): Recommendations
+    public function recommendProductForUserWithUserId($id): Recommendations
     {
         $input = $this->service->findInputBy('User', 'id', $id);
-        $recommendationEngine = $this->service->getRecommender("product_recommendation");
+        $recommendationEngine = $this->service->getRecommender("rating_based_product_recommendation");
+
+        return $recommendationEngine->recommend($input, new SimpleContext());
+    }
+
+    public function recommendProductForUserWithProductId($id): Recommendations
+    {
+        $input = $this->service->findInputBy('Product', 'id', $id);
+        $recommendationEngine = $this->service->getRecommender("properties_based_product_recommendation");
 
         return $recommendationEngine->recommend($input, new SimpleContext());
     }

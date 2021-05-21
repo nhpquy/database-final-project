@@ -22,6 +22,10 @@ class RecommendationExecutor
      * @var \FinalProject\RecommendationEngine\Executor\PostProcessPhaseExecutor
      */
     protected $postProcessExecutor;
+    /**
+     * @var \Symfony\Component\Stopwatch\Stopwatch
+     */
+    protected $stopwatch;
 
     public function __construct(DatabaseService $databaseService)
     {
@@ -30,7 +34,7 @@ class RecommendationExecutor
         $this->stopwatch = new Stopwatch();
     }
 
-    public function processRecommendation(Node $input, RecommendationEngine $engine, Context $context)
+    public function processRecommendation(Node $input, RecommendationEngine $engine, Context $context): Recommendations
     {
         $recommendations = $this->doDiscovery($input, $engine, $context);
         $this->doPostProcess($input, $recommendations, $engine);
@@ -39,7 +43,7 @@ class RecommendationExecutor
         return $recommendations;
     }
 
-    private function doDiscovery(Node $input, RecommendationEngine $engine, Context $context)
+    private function doDiscovery(Node $input, RecommendationEngine $engine, Context $context): Recommendations
     {
         $recommendations = new Recommendations($context);
         $context->getStatistics()->startDiscovery();

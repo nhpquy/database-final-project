@@ -5,6 +5,7 @@ namespace FinalProject\RecommendationEngine\Engine;
 
 use FinalProject\RecommendationEngine\Context\Context;
 use FinalProject\RecommendationEngine\Persistence\DatabaseService;
+use FinalProject\RecommendationEngine\Result\Recommendations;
 use GraphAware\Common\Type\Node;
 
 interface RecommendationEngine
@@ -70,7 +71,7 @@ interface RecommendationEngine
      *
      * @return \FinalProject\RecommendationEngine\Result\Recommendations
      */
-    public function recommend(Node $input, Context $context);
+    public function recommend(Node $input, Context $context): Recommendations;
 
     /**
      * @param \FinalProject\RecommendationEngine\Persistence\DatabaseService $databaseService

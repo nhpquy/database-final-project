@@ -8,21 +8,23 @@ use GraphAware\Common\Cypher\Statement;
 use GraphAware\Common\Cypher\StatementInterface;
 use GraphAware\Common\Type\Node;
 
-class RatedByUsersDiscovery extends SingleDiscoveryEngine
+class SameCategoryDiscovery extends SingleDiscoveryEngine
 {
 
     public function name(): string
     {
-        return "rated_by_user";
+        return "same_category";
     }
 
     public function discoveryQuery(Node $input, Context $context): StatementInterface
     {
-        $query = 'MATCH (input:User) WHERE id(input) = $id
-        MATCH (input)-[:RATED]->(p)<-[:RATED]-(o)
-        WITH distinct o
-        MATCH (o)-[:RATED]->(reco)
-        RETURN distinct reco LIMIT 500';
+        $query = 'MATCH (input:Product) WHERE id(input) = $id
+        MATCH (product)-[:HAS_CATEGORY]->(cate)
+        WITH distinct cate
+        MATCH (cate)<-[:HAS_CATEGORY]-(reco)
+        RETURN distinct reco
+        ORDER BY reco.view DESC
+        LIMIT 200';
 
         return Statement::create($query, ['id' => $input->identity()]);
     }

@@ -1,5 +1,12 @@
 LOAD CSV WITH HEADERS FROM "file:///E:\Master\Database\database-final-project\dataset\products.csv" AS row
 WITH row
 MERGE (product:Product {id: toInteger(row.productId)})
-ON CREATE SET product.name = row.name, product.counting = toInteger(row.counting)
+ON CREATE SET product.price = row.price, product.view = toInteger(row.view), product.stock = toInteger(row.stock), product.sell = toInteger(row.sell)
+WITH product, row
+MERGE (type:Type {id: toInteger(row.typeId)})
+MERGE (product)-[:HAS_TYPE]->(type)
+MERGE (category:Category {id: toInteger(row.categoryId)})
+MERGE (product)-[:HAS_CATEGORY]->(category)
+MERGE (sale:Sale {sale: toInteger(row.sale)})
+MERGE (product)-[:HAS_SALE]->(sale)
 

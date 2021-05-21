@@ -3,12 +3,14 @@
 
 namespace FinalProject\RecommendationEngine\Executor;
 
+use Exception;
 use FinalProject\RecommendationEngine\Engine\RecommendationEngine;
 use FinalProject\RecommendationEngine\Persistence\DatabaseService;
 use FinalProject\RecommendationEngine\Post\CypherAwarePostProcessor;
 use FinalProject\RecommendationEngine\Post\RecommendationSetPostProcessor;
 use FinalProject\RecommendationEngine\Result\Recommendations;
 use GraphAware\Common\Type\Node;
+use RuntimeException;
 
 class PostProcessPhaseExecutor
 {
@@ -52,11 +54,9 @@ class PostProcessPhaseExecutor
         }
 
         try {
-            $results = $this->databaseService->getDriver()->runStack($stack);
-
-            return $results;
-        } catch (\Exception $e) {
-            throw new \RuntimeException('PostProcess Query Exception - ' . $e->getMessage());
+            return $this->databaseService->getDriver()->runStack($stack);
+        } catch (Exception $e) {
+            throw new RuntimeException('PostProcess Query Exception - ' . $e->getMessage());
         }
     }
 }

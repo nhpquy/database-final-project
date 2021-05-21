@@ -5,6 +5,7 @@ namespace FinalProject\RecommendationEngine;
 
 use FinalProject\RecommendationEngine\Engine\RecommendationEngine;
 use FinalProject\RecommendationEngine\Persistence\DatabaseService;
+use GraphAware\Common\Result\Result;
 use GraphAware\Common\Type\Node;
 use GraphAware\Neo4j\Client\ClientInterface;
 use InvalidArgumentException;
@@ -54,7 +55,7 @@ class RecommenderService
      *
      * @return \FinalProject\RecommendationEngine\RecommenderService
      */
-    public static function create($uri)
+    public static function create($uri): RecommenderService
     {
         return new self(new DatabaseService($uri));
     }
@@ -64,7 +65,7 @@ class RecommenderService
      *
      * @return \FinalProject\RecommendationEngine\RecommenderService
      */
-    public static function createWithClient(ClientInterface $client)
+    public static function createWithClient(ClientInterface $client): RecommenderService
     {
         $databaseService = new DatabaseService();
         $databaseService->setDriver($client);
@@ -75,9 +76,9 @@ class RecommenderService
     /**
      * @param $id
      *
-     * @return \GraphAware\Bolt\Result\Type\Node|\GraphAware\Bolt\Result\Type\Path|\GraphAware\Bolt\Result\Type\Relationship|mixed
+     * @return \GraphAware\Common\Type\Node
      */
-    public function findInputById($id)
+    public function findInputById($id): Node
     {
         $id = (int)$id;
         $result = $this->databaseService->getDriver()->run('MATCH (n) WHERE id(n) = $id RETURN n as input', ['id' => $id]);
@@ -92,7 +93,7 @@ class RecommenderService
      *
      * @return \GraphAware\Common\Type\Node
      */
-    public function findInputBy($label, $key, $value)
+    public function findInputBy(string $label, string $key, $value): Node
     {
         $query = sprintf('MATCH (n:%s {%s: $value }) RETURN n as input', $label, $key);
         $result = $this->databaseService->getDriver()->run($query, ['value' => $value]);
@@ -105,7 +106,7 @@ class RecommenderService
      *
      * @return \GraphAware\Common\Type\Node
      */
-    public function validateInput($result)
+    public function validateInput(Result $result): Node
     {
         if (count($result->records()) < 1 || !$result->getRecord()->value('input') instanceof Node) {
             throw new InvalidArgumentException('Node not found');
@@ -119,7 +120,7 @@ class RecommenderService
      *
      * @return \FinalProject\RecommendationEngine\Engine\RecommendationEngine
      */
-    public function getRecommender($name)
+    public function getRecommender($name): RecommendationEngine
     {
         if (!array_key_exists($name, $this->engines)) {
             throw new InvalidArgumentException(sprintf('The Recommendation engine "%s" is not registered in the Recommender Service', $name));
@@ -161,5 +162,11 @@ class RecommenderService
         return $this->eventDispatcher;
     }
 
-
+    /**
+     * @return \Psr\Log\LoggerInterface|\Psr\Log\NullLogger|null
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
 }

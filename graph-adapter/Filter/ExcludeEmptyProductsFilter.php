@@ -12,7 +12,7 @@ class ExcludeEmptyProductsFilter implements Filter
 
     public function doInclude(Node $input, Node $item)
     {
-        $count = $item->value("counting");
+        $count = $item->value("stock");
         if ($count < 1) {
             return false;
         }

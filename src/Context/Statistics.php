@@ -56,7 +56,7 @@ class Statistics
     /**
      * @return array
      */
-    public function getTimes()
+    public function getTimes(): array
     {
         return array(
             self::$DISCOVERY_KEY => $this->discoveryTime,
@@ -68,7 +68,7 @@ class Statistics
     /**
      * @return float
      */
-    public function getCurrentTimeSpent()
+    public function getCurrentTimeSpent(): float
     {
         $discovery = null !== $this->discoveryTime ? $this->discoveryTime : 0.0;
         $postProcess = null !== $this->postProcessingTime ? $this->postProcessingTime : 0.0;
