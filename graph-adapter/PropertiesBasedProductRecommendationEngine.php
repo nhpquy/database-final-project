@@ -9,7 +9,6 @@ use FinalProject\RecommendationEngine\Adapter\Discovery\SameTypeDiscovery;
 use FinalProject\RecommendationEngine\Adapter\Filter\ExcludeEmptyProductsFilter;
 use FinalProject\RecommendationEngine\Adapter\Post\RewardMostBuyPostProcessor;
 use FinalProject\RecommendationEngine\Adapter\Post\RewardMostSalePostProcessor;
-use FinalProject\RecommendationEngine\Adapter\Post\RewardMostViewPostProcessor;
 use FinalProject\RecommendationEngine\Engine\BaseRecommendationEngine;
 
 class PropertiesBasedProductRecommendationEngine extends BaseRecommendationEngine
@@ -39,7 +38,6 @@ class PropertiesBasedProductRecommendationEngine extends BaseRecommendationEngin
     public function postProcessors(): array
     {
         return array(
-            new RewardMostViewPostProcessor(),
             new RewardMostBuyPostProcessor(),
             new RewardMostSalePostProcessor()
         );

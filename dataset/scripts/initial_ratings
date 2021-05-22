@@ -1,4 +1,4 @@
-LOAD CSV WITH HEADERS FROM "file:///E:\Master\Database\database-final-project\dataset\ratings.csv" AS row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/nhpquy/database-final-project/master/dataset/ratings.csv" AS row
 WITH row
 MATCH (product:Product {id: toInteger(row.productId)})
 MERGE (user:User {id: toInteger(row.userId)})
