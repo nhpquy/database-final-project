@@ -1,7 +1,7 @@
 LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/nhpquy/database-final-project/master/dataset/products.csv" AS row
 WITH row
 MERGE (product:Product {id: toInteger(row.productId)})
-ON CREATE SET product.price = row.price, product.view = toInteger(row.view), product.stock = toInteger(row.stock), product.sell = toInteger(row.sell)
+ON CREATE SET product.name = row.name, product.price = row.price, product.view = toInteger(row.view), product.stock = toInteger(row.stock), product.sell = toInteger(row.sell)
 WITH product, row
 MERGE (type:Type {id: toInteger(row.typeId)})
 MERGE (product)-[:HAS_TYPE]->(type)
