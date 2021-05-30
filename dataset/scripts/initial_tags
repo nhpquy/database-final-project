@@ -1,4 +1,4 @@
-LOAD CSV WITH HEADERS FROM "https://github.com/nhpquy/database-final-project/blob/master/dataset/tags.csv" AS row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/nhpquy/database-final-project/master/dataset/tags.csv" AS row
 WITH row
 MATCH (product:Product {id: toInteger(row.productId)})
 MERGE (tag:Tag {tag: row.tag})
